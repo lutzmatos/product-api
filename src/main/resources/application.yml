@@ -1,0 +1,56 @@
+server:
+  port: ${PORT:8081}
+
+spring:
+
+  main:
+    allow-bean-definition-overriding: true
+
+  application:
+    name: product-api
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_PRODUCT_HOST:localhost}:${POSTGRES_PRODUCT_PORT:40102}/${POSTGRES_PRODUCT_DB:product-db}
+    username: ${POSTGRES_PRODUCT_USER:postgres}
+    password: ${POSTGRES_PRODUCT_PASSWORD:postgres}
+    initialization-mode: always
+    initialize: true
+    continue-on-error: true
+    platform: postgresql
+    maxActive: 3
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      format_sql: true
+    show_sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:localhost}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USERNAME:guest}
+    password: ${RABBIT_MQ_PASSWORD:guest}
+
+app-config:
+
+  services:
+    sales: http://${NODE_SALES_HOST:localhost}:${NODE_SALES_PORT:8082}
+
+  secrets:
+    api-secret: ${API_SECRET:YmlzY29pdG8tbW9saGFkby1uYW8tc2UtY29tZQ==}
+
+  rabbit:
+    exchange:
+      product: product.topic
+
+    routingKey:
+      product-stock: product-stock-update.routingKey
+      sales-confirmation: sales-confirmation.routingKey
+
+    queue:
+      product-stock: product-stock-update.queue
+      sales-confirmation: sales-confirmation.queue
