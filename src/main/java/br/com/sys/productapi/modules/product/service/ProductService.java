@@ -187,36 +187,13 @@ public class ProductService {
 
     public ProductSalesResponse findProductSales(Integer id) {
         try {
-            log.info("1");
+
             var request = RequestUtil.getCurrentRequest();
-            log.info("2");
-            String transactionId =  (String) request.getAttribute("transactionid");
-            log.info("3 {}", transactionId);
-            String serviceId =  (String) request.getAttribute("serviceid");
-            log.info("4 {}", serviceId);
-            String authorization =   (String) request.getAttribute("Authorization");
-            log.info("5 {}", authorization);
 
+            String transactionId =  (String) request.getHeader("transactionid");
+            String serviceId =  (String) request.getHeader("serviceid");
+            //String authorization =   (String) request.getHeader("Authorization");
 
-            String transactionId_ =  (String) request.getHeader("transactionid");
-            log.info("transactionId_ {}", transactionId_);
-
-            String authorization_ =   (String) request.getHeader("Authorization");
-            log.info("authorization_ {}", authorization_);
-
-            ObjectMapper m1 = new ObjectMapper();
-            //m1.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-            String serialization = m1.writer().writeValueAsString(request);
-            log.info("serialization: {}", serialization);
-
-            log.info("5");
-            log.info(
-                    "Request [{}] data [{}] ",
-                    request.getMethod(),
-                    serialization
-            );
-
-//            log.info("PAREI AQUI...");
 //            log.info("transactionId {}", transactionId);
 //            log.info("serviceId {}", serviceId);
 //            log.info("authorization {}", authorization);
@@ -231,20 +208,14 @@ public class ProductService {
 
             var product = this.findById(id);
             var sales = this.getSalesByProductId(product.getId());
-            ObjectMapper mapper = new ObjectMapper();
-            var result = sales.getResult();
-            String jsonString = mapper.writeValueAsString(result.getSalesIds());
-            System.out.println(jsonString);
-            System.out.println("------------------------------------------------------");
             var response = ProductSalesResponse.of(product, sales.getResult().getSalesIds());
-//
-//            log.info(
-//                    "Response [{}] data [{}] transactionId [{}] serviceId [{}]",
-//                    currentRequest.getMethod(),
-//                    new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY).writeValueAsString(response),
-//                    transactionId,
-//                    serviceId
-//            );
+
+            log.info(
+                    "Response [{}] transactionId [{}] serviceId [{}]",
+                    request.getMethod(),
+                    transactionId,
+                    serviceId
+            );
 
             return response;
 
