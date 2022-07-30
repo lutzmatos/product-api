@@ -208,7 +208,7 @@ public class ProductService {
 
             log.info("1");
             var product = this.findById(id);
-            log.info("2");
+            log.info("2 productId: {}", product.getId());
             var sales = this.getSalesByProductId(product.getId());
             log.info("3");
             var response = ProductSalesResponse.of(product, sales.getResult().getSalesIds());
@@ -223,6 +223,7 @@ public class ProductService {
             return response;
 
         } catch (Exception exception) {
+            log.info(exception.getMessage());
 //            exception.printStackTrace();
             throw new ValidationException("There was an error trying to get the product's sales");
         }
