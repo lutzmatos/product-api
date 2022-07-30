@@ -188,24 +188,31 @@ public class ProductService {
     public ProductSalesResponse findProductSales(Integer id) {
         try {
             log.info("1");
-            var currentRequest = RequestUtil.getCurrentRequest();
+            var request = RequestUtil.getCurrentRequest();
             log.info("2");
-            String transactionId =  (String) currentRequest.getAttribute(TRANSACTION_ID);
+            String transactionId =  (String) request.getAttribute("transactionid");
             log.info("3 {}", transactionId);
-            String serviceId =  (String) currentRequest.getAttribute(SERVICE_ID);
+            String serviceId =  (String) request.getAttribute("serviceid");
             log.info("4 {}", serviceId);
-            String authorization =   (String) currentRequest.getAttribute(AUTHORIZATION);
-            log.info("1");
+            String authorization =   (String) request.getAttribute("Authorization");
+            log.info("5 {}", authorization);
+
+
+            String transactionId_ =  (String) request.getHeader("transactionid");
+            log.info("transactionId_ {}", transactionId_);
+
+            String authorization_ =   (String) request.getHeader("Authorization");
+            log.info("authorization_ {}", authorization_);
 
             ObjectMapper m1 = new ObjectMapper();
             //m1.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-            String serialization = m1.writer().writeValueAsString(currentRequest);
+            String serialization = m1.writer().writeValueAsString(request);
             log.info("serialization: {}", serialization);
 
             log.info("5");
             log.info(
                     "Request [{}] data [{}] ",
-                    currentRequest.getMethod(),
+                    request.getMethod(),
                     serialization
             );
 
