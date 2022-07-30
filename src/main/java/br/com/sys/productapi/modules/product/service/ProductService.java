@@ -189,10 +189,12 @@ public class ProductService {
             var currentRequest = RequestUtil.getCurrentRequest();
             var transactionId =  currentRequest.getAttribute(TRANSACTION_ID);
             var serviceId =  currentRequest.getAttribute(SERVICE_ID);
+            var authorization =  currentRequest.getAttribute("Authorization");
 
             log.info("PAREI AQUI...");
-            log.info("transactionId {}", (String) transactionId);
-            log.info("serviceId {}", (String) serviceId);
+            log.info("transactionId {}", transactionId);
+            log.info("serviceId {}", serviceId);
+            log.info("authorization {}", authorization);
 
             log.info(
                     "Request [{}] data [{}] transactionId [{}] serviceId [{}]",
