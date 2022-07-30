@@ -30,6 +30,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Service
 public class ProductService {
 
+    private static final String AUTHORIZATION = "Authorization";
     private static final String TRANSACTION_ID = "transactionid";
     private static final String SERVICE_ID = "serviceid";
 
@@ -189,12 +190,12 @@ public class ProductService {
             log.info("1");
             var currentRequest = RequestUtil.getCurrentRequest();
             log.info("2");
-            var transactionId =  currentRequest.getAttribute(TRANSACTION_ID);
-            log.info("3 {}");
-            var serviceId =  currentRequest.getAttribute(SERVICE_ID);
-            log.info("4");
-//            var authorization =  currentRequest.getAttribute("Authorization");
-//            log.info("1");
+            String transactionId =  (String) currentRequest.getAttribute(TRANSACTION_ID);
+            log.info("3 {}", transactionId);
+            String serviceId =  (String) currentRequest.getAttribute(SERVICE_ID);
+            log.info("4 {}", serviceId);
+            String authorization =   (String) currentRequest.getAttribute(AUTHORIZATION);
+            log.info("1");
 
             ObjectMapper m1 = new ObjectMapper();
             //m1.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
