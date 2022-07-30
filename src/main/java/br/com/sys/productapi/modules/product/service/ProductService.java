@@ -13,6 +13,8 @@ import br.com.sys.productapi.modules.sales.enums.SalesStatus;
 import br.com.sys.productapi.modules.sales.rabbitmq.SalesConfirmationSender;
 import br.com.sys.productapi.modules.supplier.service.SupplierService;
 import br.com.sys.productapi.utils.RequestUtil;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +196,9 @@ public class ProductService {
             log.info(
                     "Request [{}] data [{}] ",
                     currentRequest.getMethod(),
-                    new ObjectMapper().writeValueAsString(currentRequest)
+                    new ObjectMapper()
+                            .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
+                            .writeValueAsString(currentRequest)
             );
 
             log.info("PAREI AQUI...");
@@ -205,7 +209,7 @@ public class ProductService {
             log.info(
                     "Request [{}] data [{}] transactionId [{}] serviceId [{}]",
                     currentRequest.getMethod(),
-                    new ObjectMapper().writeValueAsString(currentRequest),
+                    new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY).writeValueAsString(currentRequest),
                     transactionId,
                     serviceId
             );
@@ -221,7 +225,7 @@ public class ProductService {
             log.info(
                     "Response [{}] data [{}] transactionId [{}] serviceId [{}]",
                     currentRequest.getMethod(),
-                    new ObjectMapper().writeValueAsString(response),
+                    new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY).writeValueAsString(response),
                     transactionId,
                     serviceId
             );
