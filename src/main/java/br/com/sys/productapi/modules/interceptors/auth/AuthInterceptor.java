@@ -29,21 +29,17 @@ public class AuthInterceptor implements HandlerInterceptor {
                              HttpServletResponse response,
                              Object handler) throws Exception {
 
-        log.info("1 {}", this.isOptions(request));
-
         if (this.isOptions(request)) {
             return true;
         }
 
         String transactionid = (String) request.getHeader("transactionid");
-        log.info("2 {}", transactionid);
 
         if (isEmpty(request.getHeader(TRANSACTION_ID))) {
             throw new ValidationException("The transactionId header is required");
         }
 
         String authorization = (String) request.getHeader(AUTHORIZATION);
-        log.info("3 {}",  authorization);
 
         this.jwtService.validateAuthorization(authorization);
 

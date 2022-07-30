@@ -206,8 +206,11 @@ public class ProductService {
 //                    serviceId
 //            );
 
+            log.info("1");
             var product = this.findById(id);
+            log.info("2");
             var sales = this.getSalesByProductId(product.getId());
+            log.info("3");
             var response = ProductSalesResponse.of(product, sales.getResult().getSalesIds());
 
             log.info(
