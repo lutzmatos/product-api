@@ -13,7 +13,7 @@ public class RequestUtil {
                     .getRequestAttributes())
                     .getRequest();
         } catch (Exception exception) {
-            exception.printStackTrace();
+            //exception.printStackTrace();
             throw new ValidationException("The current request could not be processed");
         }
     }

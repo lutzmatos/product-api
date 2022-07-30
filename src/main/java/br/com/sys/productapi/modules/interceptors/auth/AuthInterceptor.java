@@ -1,6 +1,7 @@
 package br.com.sys.productapi.modules.interceptors.auth;
 
 import br.com.sys.productapi.config.exception.ValidationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
+@Slf4j
 public class AuthInterceptor implements HandlerInterceptor {
 
     private static final String AUTHORIZATION = "Authorization";
@@ -27,13 +29,20 @@ public class AuthInterceptor implements HandlerInterceptor {
                              HttpServletResponse response,
                              Object handler) throws Exception {
 
+        log.info("1 {}", this.isOptions(request));
+
         if (this.isOptions(request)) {
             return true;
         }
 
+        log.info("2 {}", isEmpty(request.getHeader(TRANSACTION_ID)));
+
         if (isEmpty(request.getHeader(TRANSACTION_ID))) {
             throw new ValidationException("The transactionId header is required");
         }
+
+
+        log.info("3 {}",  request.getHeader(AUTHORIZATION));
 
         var authorization = request.getHeader(AUTHORIZATION);
         this.jwtService.validateAuthorization(authorization);

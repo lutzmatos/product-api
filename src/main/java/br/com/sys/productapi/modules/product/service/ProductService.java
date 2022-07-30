@@ -13,8 +13,7 @@ import br.com.sys.productapi.modules.sales.enums.SalesStatus;
 import br.com.sys.productapi.modules.sales.rabbitmq.SalesConfirmationSender;
 import br.com.sys.productapi.modules.supplier.service.SupplierService;
 import br.com.sys.productapi.utils.RequestUtil;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,9 +196,11 @@ public class ProductService {
 //            var authorization =  currentRequest.getAttribute("Authorization");
 //            log.info("1");
 
-            var serialization = new ObjectMapper()
-                    .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
-                    .writeValueAsString(currentRequest);
+            ObjectMapper m1 = new ObjectMapper();
+            //m1.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+            String serialization = m1.writer().writeValueAsString(currentRequest);
+            log.info("serialization: {}", serialization);
+
             log.info("5");
             log.info(
                     "Request [{}] data [{}] ",
@@ -228,19 +229,19 @@ public class ProductService {
             System.out.println(jsonString);
             System.out.println("------------------------------------------------------");
             var response = ProductSalesResponse.of(product, sales.getResult().getSalesIds());
-
-            log.info(
-                    "Response [{}] data [{}] transactionId [{}] serviceId [{}]",
-                    currentRequest.getMethod(),
-                    new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY).writeValueAsString(response),
-                    transactionId,
-                    serviceId
-            );
+//
+//            log.info(
+//                    "Response [{}] data [{}] transactionId [{}] serviceId [{}]",
+//                    currentRequest.getMethod(),
+//                    new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY).writeValueAsString(response),
+//                    transactionId,
+//                    serviceId
+//            );
 
             return response;
 
         } catch (Exception exception) {
-            exception.printStackTrace();
+//            exception.printStackTrace();
             throw new ValidationException("There was an error trying to get the product's sales");
         }
     }
