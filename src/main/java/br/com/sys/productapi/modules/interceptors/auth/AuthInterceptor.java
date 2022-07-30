@@ -35,12 +35,11 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        log.info("2 {}", isEmpty(request.getHeader(TRANSACTION_ID)));
+        log.info("2 {}", request.getHeader(TRANSACTION_ID));
 
         if (isEmpty(request.getHeader(TRANSACTION_ID))) {
             throw new ValidationException("The transactionId header is required");
         }
-
 
         log.info("3 {}",  request.getHeader(AUTHORIZATION));
 

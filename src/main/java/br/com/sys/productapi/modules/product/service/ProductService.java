@@ -190,7 +190,7 @@ public class ProductService {
             var currentRequest = RequestUtil.getCurrentRequest();
             log.info("2");
             var transactionId =  currentRequest.getAttribute(TRANSACTION_ID);
-            log.info("3");
+            log.info("3 {}");
             var serviceId =  currentRequest.getAttribute(SERVICE_ID);
             log.info("4");
 //            var authorization =  currentRequest.getAttribute("Authorization");
