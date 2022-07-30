@@ -191,6 +191,12 @@ public class ProductService {
             var serviceId =  currentRequest.getAttribute(SERVICE_ID);
             var authorization =  currentRequest.getAttribute("Authorization");
 
+            log.info(
+                    "Request [{}] data [{}] ",
+                    currentRequest.getMethod(),
+                    new ObjectMapper().writeValueAsString(currentRequest)
+            );
+
             log.info("PAREI AQUI...");
             log.info("transactionId {}", transactionId);
             log.info("serviceId {}", serviceId);
