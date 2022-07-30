@@ -49,7 +49,7 @@ dependencies {
 
 // Para rodar no Heroku
 jar {
-    enabled: false
+    enabled=false
 }
 
 dependencyManagement {
