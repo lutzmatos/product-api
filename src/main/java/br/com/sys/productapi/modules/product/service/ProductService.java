@@ -187,16 +187,20 @@ public class ProductService {
 
     public ProductSalesResponse findProductSales(Integer id) {
         try {
-
+            log.info("1");
             var currentRequest = RequestUtil.getCurrentRequest();
+            log.info("2");
             var transactionId =  currentRequest.getAttribute(TRANSACTION_ID);
+            log.info("3");
             var serviceId =  currentRequest.getAttribute(SERVICE_ID);
-            var authorization =  currentRequest.getAttribute("Authorization");
+            log.info("4");
+//            var authorization =  currentRequest.getAttribute("Authorization");
+//            log.info("1");
 
             var serialization = new ObjectMapper()
                     .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
                     .writeValueAsString(currentRequest);
-
+            log.info("5");
             log.info(
                     "Request [{}] data [{}] ",
                     currentRequest.getMethod(),
@@ -222,7 +226,7 @@ public class ProductService {
             var result = sales.getResult();
             String jsonString = mapper.writeValueAsString(result.getSalesIds());
             System.out.println(jsonString);
-            System.out.println('------------------------------------------------------');
+            System.out.println("------------------------------------------------------");
             var response = ProductSalesResponse.of(product, sales.getResult().getSalesIds());
 
             log.info(
